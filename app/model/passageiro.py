@@ -1,2 +1,9 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, BigInteger, DECIMAL, ForeignKey
 from app.database import Base
+
+class PassageiroModel(Base):
+    __tablename__ = "passageiro"
+
+    id_passageiro = Column(BigInteger, primary_key=True, autoincrement=True)
+    id_usuario = Column(BigInteger, ForeignKey("usuario.id_usuario"))
+    media_avaliacao = Column(DECIMAL(3,2))
