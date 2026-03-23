@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String
 from app.database import Base
 
 class ServicoModel(Base):
@@ -6,4 +6,4 @@ class ServicoModel(Base):
 
     id_servico = Column(Integer, primary_key=True, autoincrement=True)
     nome_servico = Column(String(50))
-    id_classe_minima = Column(Integer, ForeignKey("classe.id_classe"))
+    id_classe = Column(Integer, ForeignKey ("classe.id_classe"))

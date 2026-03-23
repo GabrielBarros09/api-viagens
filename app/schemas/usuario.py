@@ -1,23 +1,20 @@
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import date
 
-class CorridaBase(BaseModel):
-    id_passageiro: int
-    id_motorista: int
-    id_servico: int
-    id_avaliacao: int | None = None
-    datahora_inicio: datetime
-    datahora_fim: datetime | None = None
-    local_partida: str
-    local_destino: str
-    valor_estimado: float
-    status: str
+class UsuarioSchema(BaseModel):
+    id: int
+    nome: str
+    cpf: str
+    data_nascimento: date
+    email: str
+    usuario: str
 
-class CorridaCreate(CorridaBase):
-    pass
+class UsuarioCreate(UsuarioSchema):
+    senha: str
 
-class CorridaResponse(CorridaBase):
-    id_corrida: int
 
-    class Config:
+class UsuarioResponse(UsuarioSchema):
+    id: int
+
+    class Config: 
         from_attributes = True

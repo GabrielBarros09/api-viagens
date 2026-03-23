@@ -1,14 +1,13 @@
 from pydantic import BaseModel
 
-class MetodoPagamentoBase(BaseModel):
+class MetodoPagamentoSchema(BaseModel):
     descricao: str
-    nome_financeira: str
+    nome_financeira: int
 
-class MetodoPagamentoCreate(MetodoPagamentoBase):
-    pass
-
-class MetodoPagamentoResponse(MetodoPagamentoBase):
+class MetodoPagamentoResponse(MetodoPagamentoSchema):
     id_metodo_pagamento: int
 
     class Config:
         from_attributes = True
+
+    

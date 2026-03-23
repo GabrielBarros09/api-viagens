@@ -1,14 +1,12 @@
 from pydantic import BaseModel
+from typing import Optional
 
-class MotoristaBase(BaseModel):
+class MotoristaSchema(BaseModel):
     id_usuario: int
-    media_avaliacao: float
+    media_avaliacao: Optional[float]
     cnh: int
 
-class MotoristaCreate(MotoristaBase):
-    pass
-
-class MotoristaResponse(MotoristaBase):
+class MotoristaResponse(MotoristaSchema):
     id_motorista: int
 
     class Config:

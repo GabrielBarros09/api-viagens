@@ -1,16 +1,13 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class PagamentoBase(BaseModel):
+class PagamentoSchema(BaseModel):
     id_corrida: int
     valor: float
     id_metodo_pagamento: int
     datahora_transacao: datetime
 
-class PagamentoCreate(PagamentoBase):
-    pass
-
-class PagamentoResponse(PagamentoBase):
+class PagamentoResponse(PagamentoSchema):
     id_pagamento: int
 
     class Config:

@@ -1,0 +1,66 @@
+### Variáveis de ambiente
+@base_url = http://127.0.0.1:8000
+
+### USUARIOS
+POST {{base_url}}/usuario
+Content-Type: application/json
+
+{
+  "nome": "Gabriel Barros",
+  "cpf": "44534733895",
+  "data_nascimento": "2009-03-25",
+  "senha": "12345",
+  "email": "gabrielbarros@gmail.com",
+  "usuario": "biel"
+}
+
+### PASSAGEIROS
+POST {{base_url}}/passageiro
+Content-Type: application/json
+
+{
+  "id_usuario": 1,
+  "id_passageiro": 2,
+  "media_avaliacao": 4
+}
+
+### MOTORISTAS
+POST {{base_url}}/motorista
+Content-Type: application/json
+
+{
+  "id_usuario": 1,
+  "nome_motorista": "Gabriel",
+  "media_avaliacao": 4,
+  "cnh": "12345678901"
+}
+
+### TIPO COMBUSTIVEL
+POST {{base_url}}/tipo_combustivel
+Content-Type: application/json
+
+{
+  "descricao": "Diesel",
+  "fator_carbono": 1.0
+}
+
+### MODELO VEICULO
+POST {{base_url}}/modelo_veiculo
+Content-Type: application/json
+
+ {
+  "modelo": "Lancer",
+  "marca": "Mitsubishi",
+  "cor": "Cinza",
+  "ano": 2023,
+  "capacidade": 5,
+  "propriedade": "Proprio",
+  "id_tipo_combustivel": 1,
+
+  "placa": "ABC1D23",
+  "id_motorista": 1,
+  "id_veiculo": 1,
+  "id_modelo_veiculo": 1
+}
+
+

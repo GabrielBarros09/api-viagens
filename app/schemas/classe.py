@@ -1,14 +1,12 @@
 from pydantic import BaseModel
 
-class PassageiroBase(BaseModel):
-    id_usuario: int
-    media_avaliacao: float
+class ClasseSchema(BaseModel):
+    nome_classe: str
+    fator_preco: float
 
-class PassageiroCreate(PassageiroBase):
-    pass
-
-class PassageiroResponse(PassageiroBase):
-    id_passageiro: int
+class ClasseResponse(ClasseSchema):
+    id_classe: int
 
     class Config:
         from_attributes = True
+    

@@ -1,13 +1,11 @@
 from pydantic import BaseModel
+from typing import Optional
 
-class PassageiroBase(BaseModel):
+class PassageiroSchema(BaseModel):
     id_usuario: int
-    media_avaliacao: float
+    media_avaliacao: Optional[float]
 
-class PassageiroCreate(PassageiroBase):
-    pass
-
-class PassageiroResponse(PassageiroBase):
+class PassageiroResponse(PassageiroSchema):
     id_passageiro: int
 
     class Config:

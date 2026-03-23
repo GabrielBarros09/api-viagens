@@ -1,19 +1,16 @@
 from pydantic import BaseModel
 
-class ModeloVeiculoBase(BaseModel):
+class ModeloVeiculoSchema(BaseModel):
     nome_modelo: str
-    cor: str
     fabricante: str
+    cor: str
     ano: int
     capacidade: int
     propriedade: str
-    id_combustivel: int
+    id_tipo_combustivel: int
 
-class ModeloVeiculoCreate(ModeloVeiculoBase):
-    pass
-
-class ModeloVeiculoResponse(ModeloVeiculoBase):
-    id_modelo: int
+class ModeloVeiculoResponse(ModeloVeiculoSchema):
+    id_modelo_veiculo: int
 
     class Config:
         from_attributes = True
