@@ -9,7 +9,6 @@ class CorridaModel(Base):
     id_motorista = Column(Integer, ForeignKey("motorista.id_motorista"), nullable=False)
     id_servico = Column(Integer, ForeignKey("servico.id_servico"))
     id_avaliacao = Column(Integer, ForeignKey("avaliacao.id_avaliacao"))
-    
     data_inicio = Column(DateTime)
     data_fim = Column(DateTime)
     local_partida= Column(String(50))

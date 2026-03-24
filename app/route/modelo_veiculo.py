@@ -1,58 +1,49 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.model.modelo_veiculo import ModeloVeiculoModel
-from app.schemas.modelo_veiculo import ModeloVeiculoSchema
+from app.models.modelo_veiculo import ModeloVeiculoModel
+from app.schemas.modelo_veiculo import ModeloVeiculoSchema, ModeloVeiculoResponse
 
-modelo_veiculo = APIRouter()
+modelo_veiculo = APIRouter(prefix="/corrida",tags=["Modelo Veículo"])
 
-@modelo_veiculo.post("/")
-async def criar_modelo_veiculo(dados: ModeloVeiculoSchema, db:
-                                Session = Depends(get_db)):
-    novo_modelo = ModeloVeiculoModel(**dados.model_dump())
-    db.add(novo_modelo)
+@modelo_veiculo.post("/", response_model=ModeloVeiculoSchema)
+async def criar_modelo_veiculo(dados: ModeloVeiculoSchema, db: Session = Depends(get_db)):
+    criar_modelo_veiculo = ModeloVeiculoModel(**dados.model_dump())
+    db.add(criar_modelo_veiculo)
     db.commit()
-    db.refresh(novo_modelo)
-    return novo_modelo
+    db.refresh(criar_modelo_veiculo)
+    return criar_modelo_veiculo
 
-@modelo_veiculo.get("/modelos")
-async def listar_modelos(db: Session = Depends(get_db)):
-    modelos = db.query(ModeloVeiculoModel).all()
-    return modelos
+@modelo_veiculo.get("/")
+async def listar_modelo_veiculo(db: Session = Depends(get_db)):
+    return db.query(ModeloVeiculoModel).all()
 
-@modelo_veiculo.delete("/delete/{id}")
-async def deletar_modelo(id: int, db: Session = Depends(get_db)):
-    modelo = db.query(ModeloVeiculoModel).filter(ModeloVeiculoModel
-                                                .id_modelo_veiculo 
-                                                == id).first()
+@modelo_veiculo.get("/{id}")
+async def buscar_modelo_veiculo(id_modelo_veiculo: int, db: Session = Depends(get_db)):
+    modelo_veiculo = db.query(ModeloVeiculoModel).filter(ModeloVeiculoModel.id_modelo_veiculo == id_modelo_veiculo).first()
+    if not modelo_veiculo:
+        raise HTTPException(status_code=404, detail="Modelo Veículo não encontrada")
+    return modelo_veiculo
 
-    if not modelo:
-        raise HTTPException(
-            status_code = status.HTTP_404_NOT_FOUND, 
-            detail = f"MModelo de veículo com ID {id} não encontrado"
-            )
+@modelo_veiculo.put("/{id}")
+async def atualizar_modelo_veiculo(id_modelo_veiculo: int, dados: ModeloVeiculoResponse, db: Session = Depends(get_db)):
+    modelo_veiculo = db.query(ModeloVeiculoModel).filter(ModeloVeiculoModel.id_modelo_veiculo == id_modelo_veiculo).first()
+    if not modelo_veiculo:
+        raise HTTPException(status_code=404, detail="Modelo Veículo não encontrada")
     
-    db.delete(modelo)
-    db.commit()
-    return('Pronto, id deletado')
-
-@modelo_veiculo.put("/update/{id}")
-async def atualizar_modelo(id: int, dados: ModeloVeiculoSchema,
-                            db: Session = Depends(get_db)):
-    modelo = db.query(ModeloVeiculoModel).filter(ModeloVeiculoModel.
-                                         id_modelo_veiculo == id).first()
-
-    if not modelo:
-        raise HTTPException(
-            status_code = status.HTTP_404_NOT_FOUND, 
-            detail = f"MModelo de veículo com ID {id} não encontrado"
-            )
-
-    for campo, valor in dados.model_dump().items():
-        setattr(modelo, campo, valor)
+    for chave, valor in dados.model_dump(exclude_unset=True).items():
+        setattr(modelo_veiculo, chave, valor)
     
     db.commit()
-    db.refresh(modelo)
+    db.refresh(modelo_veiculo)
+    return modelo_veiculo
 
-    return modelo
-
+@modelo_veiculo.delete("/{id}")
+async def apagar_modelo_veiculo(id_modelo_veiculo: int, db: Session = Depends(get_db)):
+    modelo_veiculo = db.query(ModeloVeiculoModel).filter(ModeloVeiculoModel.id_modelo_veiculo == id_modelo_veiculo).first()
+    if not modelo_veiculo:
+        raise HTTPException(status_code=404, detail="Modelo Veículo não encontrado")
+    
+    db.delete(modelo_veiculo)
+    db.commit()
+    return {"message": "Modelo Veículo removido com sucesso"}
